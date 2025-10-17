@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-
+import json
 
 G = nx.read_edgelist('Wiki-Vote.txt', nodetype=int, create_using=nx.Graph())
 
@@ -26,10 +26,16 @@ triangles = dict(sorted(triangles.items(), key=lambda item: item[1], reverse=Tru
 with open('wiki-triangles.txt', 'w') as f:
     f.writelines([str(item) + ", " + str(triangles[item]) + '\n' for item in triangles])
 
-"""ccs = list(nx.connected_components(G))
+ccs = list(nx.connected_components(G))
+with open('wiki-ccs.txt', 'w') as f:
+    f.writelines([str(item)  + '\n' for item in ccs])
+
 largest_ccs = max(ccs, key=len)
+with open('wiki-large-cc.txt', 'w') as f:
+    f.writelines("Largest Connected Component: " + '\n')
+    f.writelines(str(largest_ccs))
+
 G_lcc = G.subgraph(largest_ccs)
-
-diameter_approx = nx.diameter(G_lcc)"""
-
+diameter_approx = nx.diameter(G_lcc)
+print("Diameter of Largest CC:", diameter_approx)
 
