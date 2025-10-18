@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 
-G = nx.read_edgelist('Wiki-Vote.txt', nodetype=int, create_using=nx.Graph())
+G = nx.read_edgelist('../Wiki-Vote.txt', nodetype=int, create_using=nx.Graph())
 
 degrees = [G.degree(n) for n in G.nodes()]
 plt.hist(degrees, bins=range(min(degrees), max(degrees) + 2))
