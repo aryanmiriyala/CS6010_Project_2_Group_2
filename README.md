@@ -5,8 +5,8 @@
 - **road-network/roadNet-TX.txt** — Texas road network (edge list, undirected).
 - **wiki-votes/Wiki-Vote.txt** — Wikipedia vote network (edge list, _directed_).
 - **roadnet_data.py** — Analyzes the road network as **undirected** (degrees, clustering, components, largest CC, diameter).
-- **wiki-vote_data.py** — Analyzes Wiki-Vote as **undirected** (degrees, clustering, components, largest CC, diameter).
-- **wiki-vote_data_alt.py** — Analyzes Wiki-Vote as **directed** (SCCs, largest SCC, diameter).
+- **wiki-vote-data-undir.py** — Analyzes Wiki-Vote as **undirected** (degrees, clustering, components, largest CC, diameter).
+- **wiki-vote-data-dir.py** — Analyzes Wiki-Vote as **directed** (SCCs, largest SCC, diameter).
 
 ## Setup (venv named `proj2-env`)
 
@@ -35,8 +35,8 @@ pip install -r requirements.txt
 
 ```bash
 python roadnet_data.py          # uses road-network/roadNet-TX.txt
-python wiki-vote_data.py        # uses wiki-votes/Wiki-Vote.txt (undirected)
-python wiki-vote_data_alt.py    # uses wiki-votes/Wiki-Vote.txt (directed)
+python wiki-vote-data-dir.py        # uses wiki-votes/Wiki-Vote.txt (undirected)
+python wiki-vote-data-undir.py    # uses wiki-votes/Wiki-Vote.txt (directed)
 ```
 
 **Outputs:** PNGs (degree histograms) and TXT reports (components, largest CC/SCC, etc.) in the repo.
