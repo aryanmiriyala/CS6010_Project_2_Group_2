@@ -1,41 +1,92 @@
-import networkx as nx
+# wiki_vote_undirected_five_props_csv.py
+# Undirected Wiki-Vote (exact, no sampling/approx), writes exactly 5 CSVs with headers.
+# Input kept as requested: ../Wiki-Vote.txt
+
+import time
+from collections import Counter
 import numpy as np
-import matplotlib.pyplot as plt
-import json
+import networkx as nx
 
-G = nx.read_edgelist('../Wiki-Vote.txt', nodetype=int, create_using=nx.Graph())
+START = time.time()
 
-degrees = [G.degree(n) for n in G.nodes()]
-plt.hist(degrees, bins=range(min(degrees), max(degrees) + 2))
-plt.xlabel("Degree")
-plt.ylabel("Frequency")
-plt.savefig('wiki-degrees.png')
+# ---------- Load as UNDIRECTED ----------
+# SNAP edges "i j" become an undirected edge {i,j}
+Gu = nx.read_edgelist(
+    "../Wiki-Vote.txt",            # your original path
+    nodetype=int,
+    create_using=nx.Graph(),
+    comments="#",
+)
+print(f"[load] (undirected) V={Gu.number_of_nodes()} E={Gu.number_of_edges()}  ({time.time()-START:.2f}s)")
 
-clust = nx.clustering(G)
-clust = dict(sorted(clust.items(), key=lambda item: item[1], reverse=True))
-with open('wiki-clust.txt', 'w') as f:
-    f.writelines([str(item) + ", " + str(clust[item]) + '\n' for item in clust])
+# ============================================================
+# 1) Degree distribution (undirected) -> wiki-degree-undir.csv
+#     CSV header: degree,count
+#     (Undirected has a single degree per node.)
+# ============================================================
+t0 = time.time()
+deg = [Gu.degree(n) for n in Gu.nodes()]
+deg_cnt = Counter(deg)
+with open("wiki-degree-undir.csv", "w") as f:
+    f.write("degree,count\n")
+    for d in sorted(deg_cnt):
+        f.write(f"{int(d)},{int(deg_cnt[d])}\n")
+print(f"[degree] min/med/max=({np.min(deg)},{np.median(deg)},{np.max(deg)})  ({time.time()-t0:.2f}s)")
 
-bc = nx.betweenness_centrality(G, k=500, seed=42)
-bc = dict(sorted(bc.items(), key=lambda item: item[1], reverse=True))
-with open('wiki-bc.txt', 'w') as f:
-    f.writelines([str(item) + ", " + str(bc[item]) + '\n' for item in bc])
+# ============================================================
+# 2) Local clustering (undirected) -> wiki-clustering-undir.csv
+#     CSV header: node_id,clustering_coeff
+#     First row:  AVG,<value>
+# ============================================================
+t0 = time.time()
+clust_by_node = nx.clustering(Gu)                 # dict node->float
+avg_clust = nx.average_clustering(Gu)
+with open("wiki-clustering-undir.csv", "w") as f:
+    f.write("node_id,clustering_coeff\n")
+    f.write(f"AVG,{avg_clust}\n")
+    for n, c in sorted(clust_by_node.items(), key=lambda x: x[1], reverse=True):
+        f.write(f"{n},{c}\n")
+print(f"[clustering] avg={avg_clust:.6f}  ({time.time()-t0:.2f}s)")
 
-triangles = nx.triangles(G)
-triangles = dict(sorted(triangles.items(), key=lambda item: item[1], reverse=True))
-with open('wiki-triangles.txt', 'w') as f:
-    f.writelines([str(item) + ", " + str(triangles[item]) + '\n' for item in triangles])
+# ============================================================
+# 3) Betweenness centrality (undirected, EXACT) -> wiki-betweenness-undir.csv
+#     CSV header: node_id,betweenness
+# ============================================================
+t0 = time.time()
+bc = nx.betweenness_centrality(Gu, k=None, normalized=True, endpoints=False)  # exact
+with open("wiki-betweenness-undir.csv", "w") as f:
+    f.write("node_id,betweenness\n")
+    for n, b in sorted(bc.items(), key=lambda x: x[1], reverse=True):
+        f.write(f"{n},{b}\n")
+print(f"[betweenness] undirected exact written  ({time.time()-t0:.2f}s)")
 
-ccs = list(nx.connected_components(G))
-with open('wiki-ccs.txt', 'w') as f:
-    f.writelines([str(item)  + '\n' for item in ccs])
+# ============================================================
+# 4) Triangles (undirected, ALL) -> wiki-triangles-undir.csv
+#     CSV header: metric,value
+#     Single row: undirected_triangle_count,<int>
+# ============================================================
+t0 = time.time()
+tri_per_node = nx.triangles(Gu)                   # node -> incident triangle count
+total_tri = sum(tri_per_node.values()) // 3       # each triangle counted at all 3 vertices
+with open("wiki-triangles-undir.csv", "w") as f:
+    f.write("metric,value\n")
+    f.write(f"undirected_triangle_count,{total_tri}\n")
+print(f"[triangles] undirected triangles (exact) = {total_tri}  ({time.time()-t0:.2f}s)")
 
-largest_ccs = max(ccs, key=len)
-with open('wiki-large-cc.txt', 'w') as f:
-    f.writelines("Largest Connected Component: " + '\n')
-    f.writelines(str(largest_ccs))
+# ============================================================
+# 5) Connected components & exact diameter (undirected)
+#     -> wiki-components-diameter-undir.csv
+#     CSV header: num_cc,largest_cc_nodes,diameter_largest_cc
+# ============================================================
+t0 = time.time()
+ccs = list(nx.connected_components(Gu))
+largest_cc = max(ccs, key=len)
+H = Gu.subgraph(largest_cc).copy()
+diam = nx.diameter(H)  # exact diameter on the LCC
+with open("wiki-components-diameter-undir.csv", "w") as f:
+    f.write("num_cc,largest_cc_nodes,diameter_largest_cc\n")
+    f.write(f"{len(ccs)},{len(largest_cc)},{diam}\n")
+print(f"[components] CCs={len(ccs)} (largest={len(largest_cc)}), "
+      f"diameter_largest_cc={diam}  ({time.time()-t0:.2f}s)")
 
-G_lcc = G.subgraph(largest_ccs)
-diameter_approx = nx.diameter(G_lcc)
-print("Diameter of Largest CC:", diameter_approx)
-
+print(f"[done] total time {time.time()-START:.2f}s")
