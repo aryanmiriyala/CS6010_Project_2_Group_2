@@ -1,0 +1,7 @@
+[load] (undirected) V=7115 E=100762  (0.27s)
+[degree] min/med/max=(1,4.0,1065)  (0.01s)
+[clustering] avg=0.140898  (9.05s)
+[betweenness] undirected exact written  (1001.24s)
+[triangles] undirected triangles (exact) = 608389  (1.49s)
+[components] CCs=24 (largest=7066), diameter_largest_cc=7  (172.53s)
+[done] total time 1184.59s

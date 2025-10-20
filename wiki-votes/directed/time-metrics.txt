@@ -1,0 +1,7 @@
+[load] V=7115 E=103689  (0.25s)
+[degree] in(min,med,max)=(0,0.0,457) out(min,med,max)=(0,2.0,893)  (0.01s)
+[clustering] avg=0.140898 reciprocity(dir)=0.056457  (7.94s)
+[betweenness] directed exact written  (133.99s)
+[triangles] directed 3-cycles (exact) = 43975  (2.40s)
+[components] WCCs=24 (largest=7066), SCCs=5816 (largest=1300), diameter_largest_scc=9  (3.08s)
+[done] total time 147.67s
