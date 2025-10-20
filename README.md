@@ -36,14 +36,11 @@ The processing code scripts require:
 
     - The actual wiki-Vote network dataset can be found in /CS6010_Project2_Group_2/wiki-votes/Wiki-Vote.txt. It contains the Wikipedia vote network (edge list, directed).
 
-    - The program file for calculating and finding the graph properties can be found in /CS6010_Project2_Group_2/wiki-votes/wiki-vote_data.py. The program file analyzes the road network as undirected (degrees, clustering, betweenness centrality, connected components, triangles, largest CC and diameter).
+### directed
+    - The program file for calculating and finding the graph properties can be found in /CS6010_Project2_Group_2/wiki-votes/directed/wiki-vote-data-dir.py. The program file analyzes the road network as directed (degrees, clustering, betweenness centrality, strongly connected components, simple circles, largest CC and diameter).
 
-## wiki-votes-alt
-    - Contains the dataset, program, and the output of the program related to the wiki-Vote dataset, kept in its directed graph form.
-
-    - The actual wiki-Vote network dataset can be found in /CS6010_Project2_Group_2/wiki-votes-alt/Wiki-Vote.txt. It contains the Wikipedia vote network (edge list, directed).
-
-    - The program file for calculating and finding the graph properties can be found in /CS6010_Project2_Group_2/wiki-votes-alt/wiki-vote_data-alt.py. The program file analyzes the road network as directed (degrees, clustering, betweenness centrality, strongly connected components, simple circles, largest CC and diameter).
+## undirected
+    - The program file for calculating and finding the graph properties can be found in /CS6010_Project2_Group_2/wiki-votes/undirected/wiki-vote-data-undir.py. The program file analyzes the road network as undirected (degrees, clustering, betweenness centrality, connected components, triangles, largest CC and diameter).
 
 
 # Graph Properties
@@ -66,8 +63,8 @@ Our group decided to choose five different graph properties. The definition of e
 # Runtime
 
     - roadnet_data.py: 
-    - wiki-vote_data.py: 
-    - wiki-vote_data_alt.py: 
+    - wiki-vote-data-undir.py: 
+    - wiki-vote-data-dir.py: 
 
 
 # Setup and Execution
@@ -99,15 +96,15 @@ pip install -r requirements.txt
 
 First, you must cd into the respective folders to execute the Python programs. The steps to do so can be seen below:
     - To execute the roadnet_data.py file, use the following command: cd road-network
-    - To execute the wiki-vote_data.py file, use the following command: cd wiki-votes
-    - To execute the wiki-vote_data_alt.py file, use the following command: cd wiki-votes-alt
+    - To execute the wiki-vote-data-undir.py file, use the following command: cd wiki-votes/undirected
+    - To execute the wiki-vote-data-dir.py file, use the following command: cd wiki-votes/directed
 
 Once you cd into the respective folders, you can use one of the three bash commands below to run the respective files:
 
     ```bash
-    python roadnet_data.py          # uses road-network/roadNet-TX.txt
-    python wiki-vote_data.py        # uses wiki-votes/Wiki-Vote.txt (undirected)
-    python wiki-vote_data_alt.py    # uses wiki-votes/Wiki-Vote.txt (directed)
+    python roadnet_data.py              # uses road-network/roadNet-TX.txt
+    python wiki-vote-data-undir.py      # uses wiki-votes/Wiki-Vote.txt (undirected)
+    python wiki-vote-data-alt-dir.py    # uses wiki-votes/Wiki-Vote.txt (directed)
     ```
 
 **Outputs:** PNGs (degree histograms) and TXT reports (components, largest CC/SCC, etc.) in the repo.
