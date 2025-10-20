@@ -32,7 +32,7 @@ The processing code scripts require:
     - The program file for calculating and finding the graph properties can be found in /CS6010_Project2_Group_2/road-network/roadnet_data.py. The program file analyzes the road network as undirected (degrees, clustering, betweenness centrality, connected components, triangles, largest CC and diameter).
 
 ## wiki-votes
-    - Contains the dataset, program, and the output of the program related to the wiki-Vote dataset after it was converted to an undirected graph.
+    - Contains the dataset, program, and the output of the program related to the wiki-Vote dataset. This folder contains the directed and undirected folder, which contains the program and the outputs for the directed and undirected versions of the graph network dataset.
 
     - The actual wiki-Vote network dataset can be found in /CS6010_Project2_Group_2/wiki-votes/Wiki-Vote.txt. It contains the Wikipedia vote network (edge list, directed).
 
