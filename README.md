@@ -58,13 +58,23 @@ Our group decided to choose five different graph properties. The definition of e
     - Connected Components and diameter: a subset of nodes where every node is reachable from any other node in the same subnet. Diameter is the maximum shortest path within the network. We chose this to show how unified or disconnected the network is and coupled them together because they go hand-in-hand with each other 
 
 # Methodology
+The main tool we used for this project was Python. The main library we used was NetworkX.
 
+Below are all the steps we took to getting our results:
+
+    1. Download all the datasets from their respective links
+    2. Made sure that all the required libraries are installed (especially NetworkX)
+    3. We decided on the graph properties we would be extracting, comparing, and contrasting
+    4. Once this was done, some research was done to make sure that we knew what we were doing when it came to extracting the graph properties
+    5. After a brief research period, which included looking into NetworkX's documentation, we were able to extrapolate all of the graph properties
+    6. Once all the graph properties were extrapolated, we put output them into their respective CSV files for analysis and comparisons
+    7. 
 
 # Runtime
 
     - roadnet_data.py: 
-    - wiki-vote-data-undir.py: 
-    - wiki-vote-data-dir.py: 
+    - wiki-vote-data-undir.py: 1184.59s
+    - wiki-vote-data-dir.py: 147.67s
 
 
 # Setup and Execution
